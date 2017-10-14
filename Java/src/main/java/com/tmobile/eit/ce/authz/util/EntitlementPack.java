@@ -35,23 +35,23 @@ public class EntitlementPack {
                         Permission64.decode(subject.getABFs())
                 );
             }
-            List<Resource> accounts = entitlements.getResources();
-            if (accounts != null) {
-                accounts
+            List<Resource> resources = entitlements.getResources();
+            if (resources != null) {
+                resources
                         .parallelStream()
                         .forEach(
-                                account -> {
-                                    account.setABFs(
-                                            Permission64.decode(account.getABFs())
+                                resource -> {
+                                    resource.setABFs(
+                                            Permission64.decode(resource.getABFs())
                                     );
-                                    List<Resource> lines = account.getSubResources();
-                                    if (lines != null) {
-                                        lines
+                                    List<Resource> subResources = resource.getSubResources();
+                                    if (subResources != null) {
+                                        subResources
                                                 .parallelStream()
                                                 .forEach(
-                                                        line -> {
-                                                            line.setABFs(
-                                                                    Permission64.decode(line.getABFs())
+                                                        subResource -> {
+                                                            subResource.setABFs(
+                                                                    Permission64.decode(subResource.getABFs())
                                                             );
                                                         }
                                                 );
@@ -84,23 +84,23 @@ public class EntitlementPack {
                 );
             }
 
-            List<Resource> accounts = entitlements.getResources();
-            if (accounts != null) {
-                accounts
+            List<Resource> resources = entitlements.getResources();
+            if (resources != null) {
+                resources
                         .parallelStream()
-                        .forEach(account ->
+                        .forEach(resource ->
                                 {
-                                    account.setABFs(
-                                            Permission64.encode(account.getABFs())
+                                    resource.setABFs(
+                                            Permission64.encode(resource.getABFs())
                                     );
-                                    List<Resource> lines = account.getSubResources();
-                                    if (lines != null) {
-                                        lines
+                                    List<Resource> subResources = resource.getSubResources();
+                                    if (subResources != null) {
+                                        subResources
                                                 .parallelStream()
                                                 .forEach(
-                                                        line -> {
-                                                            line.setABFs(
-                                                                    Permission64.encode(line.getABFs())
+                                                        subResource -> {
+                                                            subResource.setABFs(
+                                                                    Permission64.encode(subResource.getABFs())
                                                             );
                                                         }
                                                 );

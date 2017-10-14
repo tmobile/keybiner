@@ -19,13 +19,13 @@ public class Authorizer {
     static final Logger LOG = LoggerFactory.getLogger(Authorizer.class);
     /**
      *
-     * @param accountNumber
-     * @param msisdn
+     * @param resourceId
+     * @param subResourceId
      * @param entitlements
      * @param ABFs
      * @return
      */
-    public static boolean isAuthorized(String accountNumber, String msisdn, Entitlements entitlements, String[] ABFs)  {
+    public static boolean isAuthorized(String resourceId, String subResourceId, Entitlements entitlements, String[] ABFs)  {
         List<String> inputABFs = null;
         try {
             if (entitlements == null) {
@@ -36,21 +36,21 @@ public class Authorizer {
             if (subject != null && subject.getABFs() != null && subject.getABFs().containsAll(inputABFs))
                 return true;
 
-            List<Resource> accounts = entitlements.getResources();
+            List<Resource> resources = entitlements.getResources();
 
-            if (accountNumber!= null && accounts != null)   {
-                for (Iterator<Resource> account = accounts.iterator(); account.hasNext(); ) {
-                    Resource ac = account.next();
-                    if (! accountNumber.equals(ac.getId())) continue;
-                    if (ac.getABFs()!= null && ac.getABFs().containsAll(inputABFs))  {
+            if (resourceId!= null && resources != null)   {
+                for (Iterator<Resource> iterator = resources.iterator(); iterator.hasNext(); ) {
+                    Resource resource = iterator.next();
+                    if (! resourceId.equals(resource.getId())) continue;
+                    if (resource.getABFs()!= null && resource.getABFs().containsAll(inputABFs))  {
                         return true;
                     }
-                    List<Resource> lines = ac.getSubResources();
-                    if (msisdn != null && lines != null) {
-                        for (Iterator<Resource> j = lines.iterator(); j.hasNext(); ) {
-                            Resource line = j.next();
-                            if (!msisdn.equals(line.getId())) continue;
-                            if (line.getABFs() != null && line.getABFs().containsAll(inputABFs))
+                    List<Resource> subResources = resource.getSubResources();
+                    if (subResourceId != null && subResources != null) {
+                        for (Iterator<Resource> j = subResources.iterator(); j.hasNext(); ) {
+                            Resource subResource = j.next();
+                            if (!subResourceId.equals(subResource.getId())) continue;
+                            if (subResource.getABFs() != null && subResource.getABFs().containsAll(inputABFs))
                                 return true;
                         }
                     }
@@ -67,13 +67,13 @@ public class Authorizer {
     /**
      *
      * @param resourceId
-     * @param msisdn
+     * @param subResourceId
      * @param entitlements
      * @param ABF
      * @param authzAmount
      * @return
      */
-    public static boolean isAuthorized(String resourceId, String msisdn, Entitlements entitlements, String ABF, int authzAmount)  {
+    public static boolean isAuthorized(String resourceId, String subResourceId, Entitlements entitlements, String ABF, int authzAmount)  {
         try {
             if (entitlements == null) {
                 throw new Exception("Invalid Entitlements");
@@ -90,21 +90,21 @@ public class Authorizer {
                 return true;
 
 
-            List<Resource> accounts = entitlements.getResources();
+            List<Resource> resources = entitlements.getResources();
 
-            if (resourceId!= null && accounts != null)   {
-                for (Iterator<Resource> account = accounts.iterator(); account.hasNext(); ) {
-                    Resource ac = account.next();
+            if (resourceId!= null && resources != null)   {
+                for (Iterator<Resource> resource = resources.iterator(); resource.hasNext(); ) {
+                    Resource ac = resource.next();
                     if (! resourceId.equals(ac.getId())) continue;
                     if (ac.getABFs()!= null && patternMatch(ABFPattern,ac.getABFs(), authzAmount ))  {
                         return true;
                     }
-                    List<Resource> lines = ac.getSubResources();
-                    if (msisdn != null && lines != null) {
-                        for (Iterator<Resource> j = lines.iterator(); j.hasNext(); ) {
-                            Resource line = j.next();
-                            if (!msisdn.equals(line.getId())) continue;
-                            if (line.getABFs() != null && patternMatch(ABFPattern,line.getABFs(), authzAmount ))
+                    List<Resource> subResources = ac.getSubResources();
+                    if (subResourceId != null && subResources != null) {
+                        for (Iterator<Resource> j = subResources.iterator(); j.hasNext(); ) {
+                            Resource subResource = j.next();
+                            if (!subResourceId.equals(subResource.getId())) continue;
+                            if (subResource.getABFs() != null && patternMatch(ABFPattern,subResource.getABFs(), authzAmount ))
                                 return true;
                         }
                     }

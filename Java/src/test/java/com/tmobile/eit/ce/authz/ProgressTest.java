@@ -146,7 +146,7 @@ public class ProgressTest {
             entitlementsJson = EntitlementPack.decodeEntitlementJson(entitlementsJson);
             LOG.info("Decoded: " + entitlementsJson.length() + " :" + entitlementsJson);
 
-            assert (Authorizer.isAuthorized(null, null, entitlements, new String[]{"OVERRIDE_GIFTSTASH_RESTORATION_RULES"})) : "UnAuthorized";
+            assert (Authorizer.isAuthorized("987654320", null, entitlements, new String[]{"PUSH_FEES_TO_BILL"})) : "UnAuthorized";
 
         } catch (Exception ex) {
             ex.printStackTrace();

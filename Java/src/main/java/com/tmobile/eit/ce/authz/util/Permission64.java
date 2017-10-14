@@ -95,6 +95,7 @@ public class Permission64 {
 
         for (int i = 0; i < ABFs.length; i++) {
             String abfString = ABFMAPPER.get(ABFs[i]);
+            if (abfString == null) continue;
             Integer abfCode = Integer.parseInt(abfString);
             int bsGroup = abfCode /64;
             if (bitSet[bsGroup] == null) bitSet[bsGroup] = new BitSet(64);
