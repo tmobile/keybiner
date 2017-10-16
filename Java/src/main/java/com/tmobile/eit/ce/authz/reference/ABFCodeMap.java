@@ -41,7 +41,7 @@ public class ABFCodeMap extends HashMap<String, String>{
         try {
             serviceURL = System.getenv("authcode.service.URL");
             if (serviceURL == null)
-                System.getProperty("authcode.service.URL","http://localhost:9876/reference/v1/abfs");
+                serviceURL = System.getProperty("authcode.service.URL","http://localhost:9876/references");
             LOG.info("Initializing ABF Reference with remote service URL: "+ serviceURL);
             Client client = Client.create();
             WebResource webResource = client.resource(serviceURL);
